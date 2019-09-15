@@ -146,7 +146,8 @@ class groupClass():
                 if peerid != fromid:
                     exp = 1
                     self.setUserParametr(peerid, fromid, 'Exp', self.getUserParametr(peerid, fromid, 'Exp') + exp)
-                    if self.getUserParametr(peerid, fromid, 'Exp') >= 80*1.45 ** self.getUserParametr(peerid, fromid,'Lvl') - 1:
+                    level = self.getUserParametr(peerid, fromid,'Lvl')
+                    if self.getUserParametr(peerid, fromid, 'Exp') >= 80*(1.25-(level//10)*0.02) ** level-1:
                         self.setUserParametr(peerid, fromid, 'Lvl', self.getUserParametr(peerid, fromid, 'Lvl') + 1)
                         self.setUserParametr(peerid, fromid, 'Exp', 0)
                         self.api.messages.send(message='[id{id}|{name}],Поздравляю вас с повышением уровня!😃\n Ваш текуший уровень {lvl}🆕'.format(id=fromid, name=self.getUserParametr(peerid, fromid, 'Nick'),lvl=self.getUserParametr(peerid, fromid, 'Lvl')), peer_id=peerid, random_id=0)
@@ -181,7 +182,8 @@ class groupClass():
                 for word in message.split():
                     exp = len(word)
                 self.setUserParametr(peerid,fromid,'Exp',self.getUserParametr(peerid,fromid,'Exp')+exp)
-                if self.getUserParametr(peerid,fromid,'Exp') >= 80*1.45**self.getUserParametr(peerid,fromid,'Lvl')-1:
+                level = self.getUserParametr(peerid, fromid, 'Lvl')
+                if self.getUserParametr(peerid,fromid,'Exp') >= 80*(1.25-(level//10)*0.02) ** level-1:
                     self.setUserParametr(peerid,fromid,'Lvl',self.getUserParametr(peerid,fromid,'Lvl')+1)
                     self.setUserParametr(peerid,fromid,'Exp',0)
                     self.api.messages.send(message='[id{id}|{name}],Поздравляю вас с повышением уровня!😃\n Ваш текуший уровень {lvl}🆕'.format(id=fromid,name=self.getUserParametr(peerid,fromid,'Nick'),lvl=self.getUserParametr(peerid,fromid,'Lvl')),peer_id=peerid,random_id=0)
@@ -556,8 +558,7 @@ class groupClass():
                                                 
 (Для админов)
 3.👤 !Админ
-4.👥 !Админ-лист (список админов)
-5.⚡ !Выдать-Админку '''.format(id=fromid,name=self.getUserParametr(peerid,fromid,'Nick')),peer_id=peerid,random_id=0)
+4.👥 !Админ-лист (список админов) '''.format(id=fromid,name=self.getUserParametr(peerid,fromid,'Nick')),peer_id=peerid,random_id=0)
 
             return True
         if message.split()[0] == '!админы' or message.split()[0] == '!админ-лист':
@@ -577,7 +578,7 @@ class groupClass():
             if peerid == fromid:
                 self.api.messages.send(message='Эта комманда работает только в беседах.\n\nP.S Этот бот был сделан специально для бесед.',peer_id=peerid,random_id=0)
                 return False
-            self.api.messages.send(message='[id{id}|{name}], ваш текущий уровень - {lvl}😎.\nДля повышения уровня осталось - {exp} EXP'.format(id=fromid,name=self.getUserParametr(peerid,fromid,'Nick'),lvl=self.getUserParametr(peerid,fromid,'Lvl'),exp=int((80*1.45**self.getUserParametr(peerid,fromid,'Lvl'))-(self.getUserParametr(peerid,fromid,'Exp')))),peer_id=peerid,random_id=0)
+            self.api.messages.send(message='[id{id}|{name}], ваш текущий уровень - {lvl}😎.\nДля повышения уровня осталось - {exp} EXP'.format(id=fromid,name=self.getUserParametr(peerid,fromid,'Nick'),lvl=self.getUserParametr(peerid,fromid,'Lvl'),exp=int((80*1.25**self.getUserParametr(peerid,fromid,'Lvl'))-(self.getUserParametr(peerid,fromid,'Exp')))),peer_id=peerid,random_id=0)
             return True
         if message.split()[0] == '!toplvl':
             if peerid == fromid:
